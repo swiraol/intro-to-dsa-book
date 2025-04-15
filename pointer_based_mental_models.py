@@ -75,17 +75,33 @@ def move_ones(nums):
     # iteration 5
     # anchor = 3, runner = 5
     # runner has reached the end of the array, so the iteration is complete
-    anchor = 0
-    runner = 0
-    while runner < len(nums):
-        if nums[runner] == 1:
-            runner += 1
+    # anchor = 0
+    # runner = 0
+    # while runner < len(nums):
+    #     if nums[runner] == 1:
+    #         runner += 1
+    #     else:
+    #         nums[anchor], nums[runner] = nums[runner], nums[anchor]
+    #         anchor += 1
+    #         runner += 1
+    # return nums
+
+    # reader writer variant
+    reader = 0
+    writer = 0
+    while reader < len(nums):
+        if nums[reader] == 1:
+            reader += 1
         else:
-            nums[anchor], nums[runner] = nums[runner], nums[anchor]
-            anchor += 1
-            runner += 1
-    return nums
+            nums[writer] = nums[reader]
+            writer += 1
+            reader += 1
     
+    while writer < len(nums):
+        nums[writer] = 1
+        writer += 1
+    
+    return nums
 
 nums1 = [1, 2, 1, 4, 8]
 print(move_ones(nums1)) # [2, 4, 8, 1, 1]
