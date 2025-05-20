@@ -35,7 +35,7 @@
 
 # Two Pointers: Anchor-Runner
 
-def move_ones(nums):
+# def move_ones(nums):
     # brute force method
     # idx = 0
     # counter = 0
@@ -87,24 +87,24 @@ def move_ones(nums):
     # return nums
 
     # reader writer variant
-    reader = 0
-    writer = 0
-    while reader < len(nums):
-        if nums[reader] == 1:
-            reader += 1
-        else:
-            nums[writer] = nums[reader]
-            writer += 1
-            reader += 1
+#     reader = 0
+#     writer = 0
+#     while reader < len(nums):
+#         if nums[reader] == 1:
+#             reader += 1
+#         else:
+#             nums[writer] = nums[reader]
+#             writer += 1
+#             reader += 1
     
-    while writer < len(nums):
-        nums[writer] = 1
-        writer += 1
+#     while writer < len(nums):
+#         nums[writer] = 1
+#         writer += 1
     
-    return nums
+#     return nums
 
-nums1 = [1, 2, 1, 4, 8]
-print(move_ones(nums1)) # [2, 4, 8, 1, 1]
+# nums1 = [1, 2, 1, 4, 8]
+# print(move_ones(nums1)) # [2, 4, 8, 1, 1]
 
 # nums = [1, 2, 1, 4, 8], counter = 0, length = 5
 # first iteration, nums[0] == 1
@@ -132,4 +132,69 @@ print(move_ones(nums1)) # [2, 4, 8, 1, 1]
 # sixth iteration, counter == length so the while loop exits
 # return [2, 4, 8, 1, 1]
 
-# 
+# --- Function Definition (Requires Implementation) ---
+
+def reverseConsonants(s: str) -> str:
+    
+    # "HELLO"
+    # VOWELS = 'aeiouAEIOU'
+    # result = ''
+    # reverse_consonants = ''
+
+    # for char in s[::-1]:
+    #     if char not in VOWELS:
+    #         reverse_consonants += char
+    # print(reverse_consonants)
+
+    # length = len(reverse_consonants)
+    # consonant_index = 0
+    # for char in s:
+    #     if char not in VOWELS:
+    #         if consonant_index < length:
+    #             result += reverse_consonants[consonant_index]
+    #             consonant_index += 1
+    #     else:
+    #         result += char
+    
+    # return result
+   
+    VOWELS = 'aeiouAEIOU'
+    left = 0
+    right = len(s) - 1
+    result = ''
+    while left <= len(s) - 1:
+        if s[left] not in VOWELS and s[right] in VOWELS:
+            right -= 1
+        elif s[left] not in VOWELS and s[right] not in VOWELS:
+            result += s[right]
+            left += 1
+            right -= 1
+        else:
+            result += s[left]
+            left += 1
+    print("result: ", result)
+    
+    return result
+
+# --- Test Cases ---
+
+# Test Case 1: Empty string
+assert reverseConsonants("") == "", 'Test Case 1 Failed: Empty string'
+
+# Test Case 2: Single consonant
+assert reverseConsonants("s") == "s", 'Test Case 2 Failed: Single consonant'
+
+# Test Case 3: All caps word
+assert reverseConsonants("HELLO") == "LELHO", 'Test Case 3 Failed: All caps word'
+
+# Test Case 4: Mixed case word
+assert reverseConsonants("leetcode") == "deectole", 'Test Case 4 Failed: Mixed case word 1'
+
+# Test Case 5: Word with vowels and consonants
+assert reverseConsonants("example") == "elapmxe", 'Test Case 5 Failed: Word with vowels and consonants'
+
+# Test Case 6: Word starting and ending with consonant
+assert reverseConsonants("Consonants") == "sotnonasnC", 'Test Case 6 Failed: Word starting/ending with consonant'
+
+# If all assertions pass (after you implement the function), print a success message
+print("All test cases passed!")
