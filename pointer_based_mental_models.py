@@ -134,67 +134,127 @@
 
 # --- Function Definition (Requires Implementation) ---
 
-def reverseConsonants(s: str) -> str:
+# def reverseConsonants(s: str) -> str:
     
-    # "HELLO"
-    # VOWELS = 'aeiouAEIOU'
-    # result = ''
-    # reverse_consonants = ''
+#     # "HELLO"
+#     # VOWELS = 'aeiouAEIOU'
+#     # result = ''
+#     # reverse_consonants = ''
 
-    # for char in s[::-1]:
-    #     if char not in VOWELS:
-    #         reverse_consonants += char
-    # print(reverse_consonants)
+#     # for char in s[::-1]:
+#     #     if char not in VOWELS:
+#     #         reverse_consonants += char
+#     # print(reverse_consonants)
 
-    # length = len(reverse_consonants)
-    # consonant_index = 0
-    # for char in s:
-    #     if char not in VOWELS:
-    #         if consonant_index < length:
-    #             result += reverse_consonants[consonant_index]
-    #             consonant_index += 1
-    #     else:
-    #         result += char
+#     # length = len(reverse_consonants)
+#     # consonant_index = 0
+#     # for char in s:
+#     #     if char not in VOWELS:
+#     #         if consonant_index < length:
+#     #             result += reverse_consonants[consonant_index]
+#     #             consonant_index += 1
+#     #     else:
+#     #         result += char
     
-    # return result
+#     # return result
    
-    VOWELS = 'aeiouAEIOU'
-    left = 0
-    right = len(s) - 1
-    result = ''
-    while left <= len(s) - 1:
-        if s[left] not in VOWELS and s[right] in VOWELS:
-            right -= 1
-        elif s[left] not in VOWELS and s[right] not in VOWELS:
-            result += s[right]
-            left += 1
-            right -= 1
-        else:
-            result += s[left]
-            left += 1
-    print("result: ", result)
+#     VOWELS = 'aeiouAEIOU'
+#     left = 0
+#     right = len(s) - 1
+#     result = ''
+#     while left <= len(s) - 1:
+#         if s[left] not in VOWELS and s[right] in VOWELS:
+#             right -= 1
+#         elif s[left] not in VOWELS and s[right] not in VOWELS:
+#             result += s[right]
+#             left += 1
+#             right -= 1
+#         else:
+#             result += s[left]
+#             left += 1
+#     print("result: ", result)
     
-    return result
+#     return result
 
-# --- Test Cases ---
+# # --- Test Cases ---
 
-# Test Case 1: Empty string
-assert reverseConsonants("") == "", 'Test Case 1 Failed: Empty string'
+# # Test Case 1: Empty string
+# assert reverseConsonants("") == "", 'Test Case 1 Failed: Empty string'
 
-# Test Case 2: Single consonant
-assert reverseConsonants("s") == "s", 'Test Case 2 Failed: Single consonant'
+# # Test Case 2: Single consonant
+# assert reverseConsonants("s") == "s", 'Test Case 2 Failed: Single consonant'
 
-# Test Case 3: All caps word
-assert reverseConsonants("HELLO") == "LELHO", 'Test Case 3 Failed: All caps word'
+# # Test Case 3: All caps word
+# assert reverseConsonants("HELLO") == "LELHO", 'Test Case 3 Failed: All caps word'
 
-# Test Case 4: Mixed case word
-assert reverseConsonants("leetcode") == "deectole", 'Test Case 4 Failed: Mixed case word 1'
+# # Test Case 4: Mixed case word
+# assert reverseConsonants("leetcode") == "deectole", 'Test Case 4 Failed: Mixed case word 1'
 
-# Test Case 5: Word with vowels and consonants
-assert reverseConsonants("example") == "elapmxe", 'Test Case 5 Failed: Word with vowels and consonants'
+# # Test Case 5: Word with vowels and consonants
+# assert reverseConsonants("example") == "elapmxe", 'Test Case 5 Failed: Word with vowels and consonants'
 
-# Test Case 6: Word starting and ending with consonant
-assert reverseConsonants("Consonants") == "sotnonasnC", 'Test Case 6 Failed: Word starting/ending with consonant'
+# # Test Case 6: Word starting and ending with consonant
+# assert reverseConsonants("Consonants") == "sotnonasnC", 'Test Case 6 Failed: Word starting/ending with consonant'
 
-# If all assertions pass (after you implement the function), print a success message
-print("All test cases passed!")
+# # If all assertions pass (after you implement the function), print a success message
+# print("All test cases passed!")
+
+# Given a sorted array of integers, your task is to implement a function
+# `compressToDistinct` that modifies the array in-place to ensure
+# it starts with a sequence of distinct elements in their original order.
+# After making these modifications, the function should return
+# the count of these distinct elements.
+
+# The elements in the latter part of the array, after the distinct ones, are not important.
+
+# Example:
+
+# If the input array is [3, 3, 5, 7, 7, 8], there are four distinct elements: 3, 5, 7, and 8.
+# After modifying the array to place these distinct elements at the beginning,
+# the resulting array should look like this -> [3, 5, 7, 8, _, _].
+# The underscores (_) represent the elements that are no longer important.
+
+# You should name the function `compressToDistinct` for the tests to work correctly.
+
+def test_compress_to_distinct(array, expected_length):
+    original_reference = array
+    result_length = compress_to_distinct(array)
+    is_same_object = original_reference is array
+    is_length_correct = result_length == expected_length
+    
+    # Check if the distinct elements are in the correct order at the beginning
+    is_modified_correctly = True
+    if expected_length > 0:
+        for i in range(1, expected_length):
+            if array[i] <= array[i-1]:
+                is_modified_correctly = False
+                break
+
+    return is_same_object and is_length_correct and is_modified_correctly
+
+# --- Your code for compressToDistinct goes here ---
+def compress_to_distinct(arr):
+    anchor = 0
+    runner = 1
+    
+    if len(arr) <= 1:
+        return len(arr)
+    
+    while runner <= len(arr) - 1:
+        if arr[anchor] != arr[runner]:
+            anchor += 1
+            arr[anchor] = arr[runner]
+        
+        runner += 1
+    
+    return anchor + 1
+    
+# ----------------------------------------------------
+
+print(test_compress_to_distinct([3, 3, 5, 7, 7, 8], 4))
+print(test_compress_to_distinct([1, 1, 2, 2, 2, 3, 4, 4, 5], 5))
+print(test_compress_to_distinct([0], 1))
+print(test_compress_to_distinct([-5, -3, -3, -1, 0, 0, 0, 1], 5))
+print(test_compress_to_distinct([6, 6, 6, 6, 6, 6, 6], 1))
+
+# All tests should print True.
